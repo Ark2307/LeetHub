@@ -1,21 +1,29 @@
 class Solution {
 public:
     int jump(vector<int>& nums) {
-        int n = nums.size() ;
-        int dp[n] ;
-        int maxi = INT_MAX ;
-        fill(dp , dp + n , maxi) ;
+        if(nums.size()<=1) // 0 jumps if only one element is present
+            return 0;
         
-        dp[0] = 0 ;
-        for(int i = 1 ; i < n ; i++){
-            for(int j = 0 ; j < i ; j++){
-                if((nums[j] + j) >= i){
-                    if(dp[j] != maxi)
-                        dp[i] = min(dp[i] , dp[j] + 1) ;
-                }
+        int ladder=nums[0];
+        int stairs=nums[0];
+        int jump=1;
+        
+        for(int i=1;i<nums.size();i++)
+        {
+            if(nums.size()-1 == i)
+                return jump;
+            
+            ladder=max(ladder,nums[i]+i);
+            
+            stairs--; // signifies that we climbing the stairs
+            
+            if(stairs==0) // end of the ladder we are climbing
+            {
+                jump++;
+                stairs=ladder-i; // new stairs are from ladder-i(overlap will be there)
+                
             }
         }
-        
-        return dp[n - 1] ;
+        return jump;
     }
 };
