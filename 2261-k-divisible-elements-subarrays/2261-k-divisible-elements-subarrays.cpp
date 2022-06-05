@@ -1,30 +1,24 @@
 class Solution {
 public:
     int countDistinct(vector<int>& nums, int k, int p) {
-        set<vector<int>> si ;
+        unsigned long long int base = 211 ;
+        unordered_set<unsigned long long>set ;
         
-        for(int i = 0 ; i < nums.size() ; i++){
+        for(int i = 0 ; i < (int)nums.size() ; i++){
+            unsigned long long hash = 0 ;
             int c = 0 ;
-            vector<int> vi ;
-            for(int j = i ; j < nums.size() ; j++){
-                vi.push_back(nums[j]) ;
-                if((nums[j] % p) == 0)
-                    c++ ;
+            
+            for(int j = i ; j < (int)nums.size() ; j++){
+                unsigned long long val = nums[j] ;
+                hash = (hash * base) + val ;
                 
-                if(c <= k){
-                    si.insert(vi) ;
-                }
+                c += (nums[j] % p ==0);
+                if(c <= k)
+                    set.insert(hash);
                 
-                else
-                    break ;
+                else break;
             }
         }
-        
-        // for(auto it: si){
-        //     cout << it.first << " " << it.second << " " << "\n" ;
-        // }
-        
-        int ans = si.size() ;
-        return ans ;
+        return (int)set.size();
     }
 };
