@@ -1,7 +1,7 @@
 class Solution {
 public:
     int countDistinct(vector<int>& nums, int k, int p) {
-        unsigned long long int base = 211 ;
+        unsigned long long int base = 201 ;
         unordered_set<unsigned long long>set ;
         
         for(int i = 0 ; i < (int)nums.size() ; i++){
