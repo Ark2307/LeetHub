@@ -21,8 +21,8 @@ public:
             
             else{
                 ans += a ;
-                left ^= a ;
-                right ^= b ;
+                left -= a ;
+                right -= b ;
             }
         }
             
