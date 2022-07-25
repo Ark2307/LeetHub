@@ -6,20 +6,19 @@ public:
         
         int c = 0 ;
         
-        for(int i = 0 ; i < (n - 2) ; i++){
-            for(int j = i + 1 ; j < (n - 1) ; j++){
-                int key = nums[i] + nums[j] ;
-                if(key > nums[n - 1]){
-                    c += (n - j - 1) ;
-                    continue ; 
+        for(int i = n - 1 ; i >= 0 ; i--){
+            int lo = 0 , hi = i - 1 ;
+            while(lo < hi){
+                int s = nums[hi] + nums[lo] ;
+                if(s <= nums[i]){
+                    lo++ ;
                 }
                 
-                auto itr = lower_bound(nums.begin() , nums.end() , key) ;
-                itr-- ;
-                int ind = itr - nums.begin() ;
-                // cout << ind << " " ; 
-                if(ind > j)
-                    c += (ind - j) ;
+                else if(lo < hi){
+                    c += (hi - lo) ;
+                    // cout << c << " " ;
+                    hi-- ;
+                }
             }
         }
         
