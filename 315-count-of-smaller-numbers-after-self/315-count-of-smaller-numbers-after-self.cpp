@@ -1,62 +1,22 @@
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+template<class T> using oset = tree<T, null_type, less_equal<T>, rb_tree_tag, tree_order_statistics_node_update>;
+// less: it is the basic for comparison of two function. Use less_equal for ordered multiset.
+// order_of_key(k): Number of items strictly smaller than k
+// find_by_order(k): kth element in a set (counting from zero) 
+
 class Solution {
 public:
-    
-    void merge(vector<pair<int , int>> &arr , int lo , int mid , int hi , vector<int> &ans){
-        int n = mid - lo + 1 ;
-        int m = hi - mid ;
-        
-        vector<pair<int , int>> tempL , tempR ;
-        for(int i = lo ; i <= mid ; i++)
-            tempL.push_back(arr[i]) ;
-        
-        for(int i = mid + 1 ; i <= hi ; i++)
-            tempR.push_back(arr[i]) ;
-        
-        int i = 0 , j = 0 , k = lo , curr = 0 ;
-        
-        while((i < n) && (j < m)){
-            if(tempL[i].second <= tempR[j].second){
-                ans[tempL[i].first] += curr ;
-                arr[k++] = tempL[i++] ;
-            }
-            
-            else{
-                curr++ ;
-                arr[k++] = tempR[j++] ;
-            }
-        }
-        
-        while(i < n){
-            ans[tempL[i].first] += curr ;
-            arr[k++] = tempL[i++] ;
-        }
-        
-        
-        while(j < m)
-            arr[k++] = tempR[j++] ;
-    }
-    
-    void mergeSort(vector<pair<int , int>> &arr , int lo , int hi , vector<int> &ans){
-        
-        if(lo >= hi)
-            return ;
-        
-        int mid = (lo + hi) / 2 ;
-        mergeSort(arr , lo , mid , ans) ;
-        mergeSort(arr , mid + 1 , hi , ans) ;
-        
-        merge(arr , lo , mid , hi , ans) ;
-    }
-    
     vector<int> countSmaller(vector<int>& nums) {
-        int n = nums.size() ;
-        vector<pair<int , int>> arr ;
-        vector<int> ans(n) ;
-        
-        for(int i = 0 ; i < nums.size() ; i++)
-            arr.push_back({i , nums[i]}) ;
-        
-        mergeSort(arr , 0 , n - 1 , ans) ;
-        return ans ;
+        oset<int> st;
+        vector<int> ans;
+        int n = nums.size();
+        for(int i=n-1; i>=0; --i){
+            ans.push_back(st.order_of_key(nums[i]));
+            st.insert(nums[i]);
+        }
+        reverse(ans.begin(), ans.end());
+        return ans;
     }
 };
