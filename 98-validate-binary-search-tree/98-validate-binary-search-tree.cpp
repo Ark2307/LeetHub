@@ -12,30 +12,14 @@
 class Solution {
 public:
     
-    bool valid(vector<int> res){
-        for(int i = 1 ;  i < res.size() ; i++){
-            if(res[i] <= res[i - 1])
-                return 0 ;
+        bool inorder(TreeNode* root, long l, long r) {
+             if (!root) return true;
+             if (!(root->val>l && root->val<r)) return false;
+             if (!inorder(root->left, l, root->val)) return false;
+             return inorder(root->right, root->val, r);
         }
-        return 1 ;
-    }
-    
-    void traverse(TreeNode *head , vector<int> &res){
-        
-        if(head == NULL)
-            return ;
-        
-        traverse(head->left , res) ;
-        res.push_back(head->val) ;
-        traverse(head->right , res) ;
-        
-    }
-    
-    bool isValidBST(TreeNode* root) {
-        
-        vector<int> res;
-        traverse(root , res) ;
-        
-        return valid(res) ;
-    }
+
+     bool isValidBST(TreeNode* root) {
+        return inorder(root, LONG_MIN, LONG_MAX);
+     }
 };
